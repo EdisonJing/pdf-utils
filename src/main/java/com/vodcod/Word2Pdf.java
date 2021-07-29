@@ -3,6 +3,7 @@ package com.vodcod;
 import java.io.File;
 
 import com.jacob.activeX.ActiveXComponent;
+import com.jacob.com.ComThread;
 import com.jacob.com.Dispatch;
 
 public class Word2Pdf {
@@ -15,6 +16,7 @@ public class Word2Pdf {
 		// 开始时间
 		long start = System.currentTimeMillis();
 		try {
+			ComThread.InitSTA();
 			// 打开word
 			app = new ActiveXComponent("Word.Application");
 			// 设置word不可见,很多博客下面这里都写了这一句话，其实是没有必要的，因为默认就是不可见的，如果设置可见就是会打开一个word文档，对于转化为pdf明显是没有必要的
@@ -43,6 +45,7 @@ public class Word2Pdf {
 		}finally {
 			// 关闭office
 			app.invoke("Quit", 0);
+			ComThread.Release();
 		}
 	}
 }
